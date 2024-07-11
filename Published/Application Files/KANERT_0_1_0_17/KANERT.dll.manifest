@@ -72,13 +72,13 @@
       <dsig:DigestValue>JDJwr1wYQmCwYd5mR9Gwo85PkZ2RAHjMP9CsUdGSgYs=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="KANERT.dll" size="577024">
+  <file name="KANERT.dll" size="576512">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>KYj1Hfe3fjXs+0eRqQoM1pR93JBOV9V6xc+vNWtKKyk=</dsig:DigestValue>
+      <dsig:DigestValue>VXrRJcyO7iWA32Ofz0Ezn+r5Pnq0eOQq94TFkn3sAgk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="KANERT.exe" size="251392">
