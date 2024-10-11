@@ -1,0 +1,37 @@
+&ACCESS RVO
+&REL 13
+&COMMENT dai_robot_check
+&PARAM DISKPATH = KRC:\R1\H_Prog
+DEFDAT  DAI_BEFORE_ZERO_DEVI
+;FOLD EXTERNAL DECLARATIONS;%{PE}%MKUKATPBASIS,%CEXT,%VCOMMON,%P
+;FOLD BASISTECH EXT;%{PE}%MKUKATPBASIS,%CEXT,%VEXT,%P
+EXT  BAS (BAS_COMMAND  :IN,REAL  :IN )
+DECL INT SUCCESS
+;ENDFOLD (BASISTECH EXT)
+;FOLD USER EXT;%{E}%MKUKATPUSER,%CEXT,%VEXT,%P
+;Make your modifications here
+;ENDFOLD (USER EXT)
+;FOLD COLLISION
+EXT  COLLSTOP (INT  :IN,INT  :IN )
+;ENDFOLD  (Collision)
+;ENDFOLD (EXTERNAL DECLERATIONS)
+DECL INT handle,answer
+DECL DSG_Simple_para_T DSG_Simple_para_TDefault={GunNo 1,EQ_Para 3} ;// iW6
+DECL BASIS_SUGG_T LAST_BASIS={POINT1[] "P0                      ",POINT2[] "P0                      ",CP_PARAMS[] "CPDAT0                  ",PTP_PARAMS[] "PDAT0                   ",CONT[] "                        ",CP_VEL[] "2.0                     ",PTP_VEL[] "100                     ",SYNC_PARAMS[] "SYNCDAT                 ",SPL_NAME[] "S0                      ",A_PARAMS[] "ADAT0                   "}
+DECL MODULEPARAM_T LAST_TP_PARAMS={PARAMS[] "Kuka.VelocityPtp=100; Kuka.BlendingEnabled=False; Kuka.CurrentCDSetIndex=0; Dai.IlfConfig=DaiWeldIlfConfig.xml; Dai.IlfTech=DSG_Weld; Kuka.PointName=VORJUS_A1; Kuka.FrameData.base_no=64; Kuka.FrameData.tool_no=64; Kuka.FrameData.ipo_frame=#BASE; Kuka.FrameData.point2=; Kuka.isglobalpoint=False; Kuka.MoveDataPtpName=PDAT6; Kuka.MovementDataPdat.apo_mode=#CDIS; Kuka.MovementDataPdat.apo_dist=0; Kuka.MovementData.vel=100; Kuka.MovementData.acc=100; Kuka.MovementData.gear_jerk=100; Kuka.MovementData.exax_ign=0; Kuka.APXEnabled=False; Kuka.Content=------------------------------     "}
+
+; E6POS Declarations
+DECL E6AXIS XVORJUS_A1={A1 -24.0000,A2 -120.000,A3 55.0000,A4 15.0000,A5 100.000,A6 95.0000,E1 -250.000,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
+DECL E6AXIS XVORJUS={A1 0.0,A2 -99.0000,A3 101.000,A4 2.50000,A5 2.50000,A6 2.50000,E1 -250.000,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
+DECL E6POS XHP005={X 1302.40588,Y -7.11551,Z 2433.60620,A -95.7493210,B 12.5095587,C -108.084335,S 18,T 2,E1 -250.000,E2 0.0,E3 0.0,E4 0.0,E5 0.0,E6 0.0}
+
+; PDAT/LDAT Declarations
+DECL PDAT PPDAT1={VEL 100.000,ACC 100.000,APO_DIST 0.0,APO_MODE #CDIS,GEAR_JERK 50.0000,EXAX_IGN 0}
+
+; FDAT Declarations
+DECL FDAT FHOME={TOOL_NO 64,BASE_NO 64,IPO_FRAME #BASE,POINT2[] " "}
+DECL FDAT FVORJUS_A1={TOOL_NO 64,BASE_NO 64,IPO_FRAME #BASE,POINT2[] " "}
+DECL FDAT FVORJUS={TOOL_NO 64,BASE_NO 64,IPO_FRAME #BASE,POINT2[] " "}
+DECL FDAT FHP005={TOOL_NO 64,BASE_NO 64,IPO_FRAME #BASE,POINT2[] " "}
+
+ENDDAT

@@ -1,0 +1,259 @@
+&ACCESS RVP
+&REL 21
+&COMMENT DAI_H_SOP_pc_at_cell_01
+&PARAM EDITMASK = DAI
+&PARAM TEMPLATE = C:\KRC\roboter\template\vg_appl
+&PARAM DISKPATH = KRC:\R1\H_Prog\DAI_SOP
+DEF S_16_pc_at_cell_01( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+;FOLD ; Anlagenbezeichn: HC53_C    Stations-Nr: 060RB_100;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Anlagenbezeichn: HC53_C    Stations-Nr: 060RB_100
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Stand / Version: V1.0;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Stand / Version: V1.0
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Name Bearbeiter: EBZ-AE;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Name Bearbeiter: EBZ-AE
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Translator Version:29.01.2024 - Version 15.08;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Translator Version:29.01.2024 - Version 15.08
+;ENDFOLD
+;ENDFOLD
+
+REPEAT
+;FOLD MSG_T1
+MSG_SHOW("DAI_H_SOP",#quit,999,"dai_h_sop_ok_0")
+;ENDFOLD
+
+; ***************************************
+; A C H T U N G !!! Nur in $T1 abfahren
+; ***************************************
+UNTIL $T1 == TRUE
+ 
+; ***************************************
+; Pruefende Waende = 2
+;----------------------------------------
+; Lademagazin in undefinierte
+; Position verfahren, damit Raum
+; aktiviert wird.
+;FOLD WAIT FOR ( IN 1026 'Vordefinierter Eingang immer ruckgesetzt.' )  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.waitfor; Kuka.WaitLogicTerm1=None; Kuka.WaitForNot1=False; Kuka.WaitLogicOp2.Term1=None; Kuka.WaitForNot2.Term1=False; Kuka.WaitForSysVar2.Term1=IN; Kuka.WaitForIndex2.Term1=1026; Kuka.WaitForIndexName2.Term1=Vordefinierter Eingang immer ruckgesetzt.; Kuka.WaitForTermNumbers=1; Kuka.WaitForOpNumbers=2; Kuka.WaitForCont=False
+;ENDFOLD
+WAIT FOR  ( $IN[1026] )
+;ENDFOLD
+
+
+;FOLD ; This program has been cleaned by KANERT_Makro. High risk of crash!!! Check the program carefully before deleting this comment. ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=This program has been cleaned by KANERT_Makro. High risk of crash!!! Check the program carefully before deleting this comment.
+;ENDFOLD
+WAIT FOR FALSE
+;ENDFOLD
+; ***************************************
+;FOLD PTP HOME Vel=100 % DEFAULT;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HOME; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=DEFAULT; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PDEFAULT
+FDAT_ACT = FHOME
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHOME 
+;ENDFOLD
+
+wait for false
+;checked, zone is not safety
+ 
+;Dynamische Pruefung Teil vorhanden
+;FOLD PartPresent.CheckOff #1:5277, #2:5278, #3:1025, #4:1025, #5:1025, #6:1025, Bounce Time:100, Constant: Yes;%{PE}%
+CheckPartPresent(5277,5278,1025,1025,1025,1025,100, True,FALSE)
+;ENDFOLD
+
+;Greifer-Ventile betatigen/pruefen
+;FOLD DAI_GripValveCheck.Valve2 State:Fixierstift Ausfahren Gs, 060GRH101-QM1;%{PE}%
+CheckValveState(2,1)
+;ENDFOLD
+;FOLD DAI_GripValveCheck.Valve3 State:Spanner Oeffnen Gs, 060GRH101-QM2;%{PE}%
+CheckValveState(3,1)
+;ENDFOLD
+;FOLD DAI_GripValveCheck.Valve4 State:Spanner Oeffnen Gs, 060GRH101-QM3;%{PE}%
+CheckValveState(4,1)
+;ENDFOLD
+
+;FOLD PTP HP005 Vel=100 % PDAT1 Tool[64]:Zero Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP005; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FHP005
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP005 
+;ENDFOLD
+;FOLD PTP HP010 Vel=100 % PDAT2 Tool[64]:Zero Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP010; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT2; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT2
+FDAT_ACT = FHP010
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP010 
+;ENDFOLD
+
+; Pruefung Flache 1 erste Position
+;FOLD PTP LPruef_Wand_X_1 Vel=100 % PDAT3 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=LPruef_Wand_X_1; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT3; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT3
+FDAT_ACT = FLPruef_Wand_X_1
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XLPruef_Wand_X_1
+;ENDFOLD
+;FOLD PTP HP015 Vel=100 % PDAT4 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP015; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT4; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT4
+FDAT_ACT = FHP015
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP015
+;ENDFOLD
+;FOLD PTP HP020 Vel=100 % PDAT5 Tool[64]:Zero Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP020; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT5; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT5
+FDAT_ACT = FHP020
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP020 
+;ENDFOLD
+
+; Pruefung Flache 1 zweite Position
+;FOLD PTP LPruef_Wand_X_2 Vel=100 % PDAT6 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=LPruef_Wand_X_2; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT6; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT6
+FDAT_ACT = FLPruef_Wand_X_2
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XLPruef_Wand_X_2
+;ENDFOLD
+;FOLD PTP HP025 Vel=100 % PDAT7 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP025; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT7; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT7
+FDAT_ACT = FHP025
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP025
+;ENDFOLD
+;FOLD PTP HP030 Vel=100 % PDAT8 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP030; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT8; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT8
+FDAT_ACT = FHP030
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP030
+;ENDFOLD
+;FOLD PTP HP035 Vel=100 % PDAT9 Tool[64]:Zero Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP035; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT9; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT9
+FDAT_ACT = FHP035
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP035 
+;ENDFOLD
+
+; Pruefung Flache 1 dritte  Position
+;FOLD LIN LPruef_Wand_Y_1 Vel=0.5 m/s CPDAT10 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=LPruef_Wand_Y_1; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT10; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT10
+FDAT_ACT = FLPruef_Wand_Y_1
+BAS(#CP_PARAMS, 0.5)
+SET_CD_PARAMS (0)
+LIN XLPruef_Wand_Y_1
+;ENDFOLD
+;FOLD PTP HP040 Vel=100 % PDAT11 Tool[64]:Zero Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP040; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT11; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT11
+FDAT_ACT = FHP040
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP040
+;ENDFOLD
+
+;FOLD PTP HOME Vel=100 % DEFAULT;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HOME; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=DEFAULT; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PDEFAULT
+FDAT_ACT = FHOME
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHOME 
+;ENDFOLD
+
+;----------------------------------------
+; Lademagazin schliessen und
+; und Quittieren.
+;FOLD WAIT FOR ( IN 1026 'Vordefinierter Eingang immer ruckgesetzt.' )  ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.logics.waitfor; Kuka.WaitLogicTerm1=None; Kuka.WaitForNot1=False; Kuka.WaitLogicOp2.Term1=None; Kuka.WaitForNot2.Term1=False; Kuka.WaitForSysVar2.Term1=IN; Kuka.WaitForIndex2.Term1=1026; Kuka.WaitForIndexName2.Term1=Vordefinierter Eingang immer ruckgesetzt.; Kuka.WaitForTermNumbers=1; Kuka.WaitForOpNumbers=2; Kuka.WaitForCont=False
+;ENDFOLD
+WAIT FOR  ( $IN[1026] )
+;ENDFOLD
+
+; ***************************************
+;Collision detection - Off
+;FOLD COLLDETECT Off ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.colldetect.off; CollDetect.Command=Off
+;ENDFOLD
+USE_CD_PARAMS(0)
+;ENDFOLD
+END

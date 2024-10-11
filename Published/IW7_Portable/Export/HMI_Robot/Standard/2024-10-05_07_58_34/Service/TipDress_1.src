@@ -1,0 +1,243 @@
+&ACCESS RVP
+&REL 14
+&COMMENT Kappenfraesen
+&PARAM DISKPATH = KRC:\R1\Service
+DEF TipDress_1( )
+;FOLD INI;%{PE}
+  ;FOLD BASISTECH INI
+    GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+    INTERRUPT ON 3 
+    BAS (#INITMOV,0 )
+  ;ENDFOLD (BASISTECH INI)
+  ;FOLD USER INI
+    ;Make your modifications here
+  ;ENDFOLD (USER INI)
+;ENDFOLD (INI)
+;FOLD ; Anlagenbezeichn: HC51_B    Stations-Nr: 040RB_100;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Anlagenbezeichn: HC51_B    Stations-Nr: 040RB_100
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Stand / Version: V1.0;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Stand / Version: V1.0
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Name Bearbeiter: EBZ-AE;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Name Bearbeiter: EBZ-AE
+;ENDFOLD
+;ENDFOLD
+;FOLD ; Translator Version:29.01.2024 - Version 15.08;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=Translator Version:29.01.2024 - Version 15.08
+;ENDFOLD
+;ENDFOLD
+
+;Collision detection - Global/HOME/Guebergabe
+;FOLD COLLDETECT UseDataSet DataSet[30];%{PE}%R 8.5.19,%MKUKATPBASIS,%CTQ_MON,%VTQ_CDSET,%P 2:TQ_CDSET, 4:30
+USE_CD_PARAMS( 30)
+;ENDFOLD
+
+WAIT FOR FALSE ;STATUS
+;FOLD ; 23.08.24 10:54 NAME: BS CHANGES: Pogram teached and checked T1 ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.datetimecomment; Kuka.DateTime=23.08.24 10:54; Kuka.Name=BS; Kuka.Content=Pogram teached and checked T1
+;ENDFOLD
+;ENDFOLD
+
+
+;FOLD ; This program has been cleaned by KANERT_Makro. High risk of crash!!! Check the program carefully before deleting this comment. ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.comments.comment; Kuka.Content=This program has been cleaned by KANERT_Makro. High risk of crash!!! Check the program carefully before deleting this comment.
+;ENDFOLD
+WAIT FOR FALSE
+;ENDFOLD
+;COLLISIONS NOT CHECKED
+
+WAIT FOR DSG_nearE6Axis (XHOME)
+;FOLD PTP HOME Vel=100 % DEFAULT;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HOME; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=DEFAULT; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PDEFAULT
+FDAT_ACT = FHOME
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHOME 
+;ENDFOLD
+
+;Collision detection - TipDress/Special Functions
+;FOLD COLLDETECT UseDataSet DataSet[29];%{PE}%R 8.5.19,%MKUKATPBASIS,%CTQ_MON,%VTQ_CDSET,%P 2:TQ_CDSET, 4:29
+USE_CD_PARAMS( 29)
+;ENDFOLD
+
+;// -- Kuehlwasser ein  --
+;FOLD Switch Cooling Water ON
+Water_ON(intGunNo)
+;ENDFOLD
+;FOLD DSG_.Init --> Daimler_ServoGun Init ;%{PE}
+ Dsg_Process(#DSG_Init )  ;	--> Basic Setup 
+;ENDFOLD
+;FOLD DSG_Gun_.Mode : 1 , CMD: Activate ;%{PE}%
+ Wait For Dsg_Gun_Change( 1, #FastActivate) 
+;ENDFOLD
+
+;FOLD PTP HP005 CONT Vel=100 % PDAT1 Tool[1]:SWZ_01_X Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP005; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT1; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT1
+FDAT_ACT = FHP005
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP005 C_Dis
+;ENDFOLD
+;FOLD PTP HP010 CONT Vel=100 % PDAT2 Tool[1]:SWZ_01_X Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP010; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT2; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT2
+FDAT_ACT = FHP010
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP010 C_Dis
+;ENDFOLD
+;FOLD PTP HP015 CONT Vel=100 % PDAT3 Tool[1]:SWZ_01_X Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP015; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT3; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT3
+FDAT_ACT = FHP015
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP015 C_Dis
+;ENDFOLD
+
+REPEAT
+;FOLD PTP HP020 Vel=100 % PDAT4 Tool[1]:SWZ_01_X Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP020; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=PDAT4; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT4
+FDAT_ACT = FHP020
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP020 
+;ENDFOLD
+
+;FOLD DSG_Dress._LIN DressGun_1, Vel= 0.5 m/s,  CPDAT5, ServoGun=1, Tool.[1], SWZ_01_X, Base.[64], Zero, EXT.TCP=FALSE, ;%{PE}
+$BWDSTART=FALSE 
+LDAT_ACT=LCPDAT5
+FDAT_ACT=DSG_FDAT_T(SDressGun_1) 
+DSG_ACT=DSG_PAR(SDressGun_1) 
+BAS(#CP_PARAMS,0.5) 
+DSG_SPOT_POINT=DSG_POS(xDressGun_1,"L" ,oDressGun_1)
+LIN DSG_SPOT_POINT
+DSG_Swivel_To_WorkPos ( )  
+DSG_Process(#Dsg_Dress  )  
+DSG_Swivel_To_HOMEPos ( ) 
+LIN DSG_SPOT_POINT
+DSG_Process(#DSG_POST )  
+;ENDFOLD
+
+;FOLD LIN HP025 Vel=0.2 m/s CPDAT5 Tool[1]:SWZ_01_X Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP025; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT5; Kuka.VelocityPath=0.2; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=LIN
+;ENDFOLD
+$BWDSTART = FALSE
+LDAT_ACT = LCPDAT5
+FDAT_ACT = FHP025
+BAS(#CP_PARAMS, 0.2)
+SET_CD_PARAMS (0)
+LIN XHP025 
+;ENDFOLD
+
+;// -- Bewegungen aus dem Fraeser --
+;FOLD PTP HP030 CONT Vel=100 % PDAT6 Tool[1]:SWZ_01_X Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP030; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT6; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT6
+FDAT_ACT = FHP030
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP030 C_Dis
+;ENDFOLD
+
+;FOLD DSG_Ini_Tip.Gun : 1, Set Mode: Non , With Measure: Yes;%{PE}%
+ Dsg_Ini_Tip( 1, #NON, True)
+ ;ENDFOLD
+;FOLD DSG_Ref._Weld  WeldGun_1, Vel= 100  %,  PDAT8, ServoGun= 1  , Tool[1], SWZ_01_X, Base[64], Zero, EXT.TCP= FALSE,  ;%{PE}
+$BWDSTART=FALSE 
+PDAT_ACT=PPDAT8
+FDAT_ACT=DSG_FDAT_T(SWeldGun_1)  
+DSG_ACT=DSG_PAR(SWeldGun_1)  
+BAS(#PTP_PARAMS,100) 
+ACT_CMD=#Dsg_RefWeld 
+DSG_SPOT_POINT=xWeldGun_1
+PTP DSG_SPOT_POINT  
+DSG_Process(#Dsg_RefWeld  )  
+PTP DSG_SPOT_POINT  
+;ENDFOLD
+
+;// -- Pruefen Fraesung OK
+ 
+UNTIL DSG_Check_TipDress_OK ( Dsg_act_Gun)
+ 
+;// -- Bewegungen zur HOME position --
+;FOLD PTP HP035 CONT Vel=100 % PDAT7 Tool[1]:SWZ_01_X Base[64]:Zero ;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP035; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT7; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT7
+FDAT_ACT = FHP035
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP035 C_Dis
+;ENDFOLD
+;FOLD PTP HP040 CONT Vel=100 % PDAT8 Tool[1]:SWZ_01_X Base[64]:Zero;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HP040; Kuka.BlendingEnabled=True; Kuka.MoveDataPtpName=PDAT8; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PPDAT8
+FDAT_ACT = FHP040
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHP040 C_Dis
+;ENDFOLD
+
+;Collision detection - Global/HOME/Guebergabe
+;FOLD COLLDETECT UseDataSet DataSet[30];%{PE}%R 8.5.19,%MKUKATPBASIS,%CTQ_MON,%VTQ_CDSET,%P 2:TQ_CDSET, 4:30
+USE_CD_PARAMS( 30)
+ 
+;ENDFOLD
+
+;FOLD PTP HOME Vel=100 % DEFAULT;%{PE}
+;FOLD Parameters ;%{h}
+;Params IlfProvider=kukaroboter.basistech.inlineforms.movement.old; Kuka.IsGlobalPoint=False; Kuka.PointName=HOME; Kuka.BlendingEnabled=False; Kuka.MoveDataPtpName=DEFAULT; Kuka.VelocityPtp=100; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; IlfCommand=PTP
+;ENDFOLD
+$BWDSTART = FALSE
+PDAT_ACT = PDEFAULT
+FDAT_ACT = FHOME
+BAS(#PTP_PARAMS, 100.0)
+SET_CD_PARAMS (0)
+PTP XHOME 
+;ENDFOLD
+
+;Collision detection - Off
+;FOLD COLLDETECT Off ;%{PE}
+ ;FOLD Parameters ;%{h}
+ ;Params IlfProvider=kukaroboter.basistech.inlineforms.colldetect.off; CollDetect.Command=Off
+ ;ENDFOLD
+ USE_CD_PARAMS(0)
+ ;ENDFOLD
+END
