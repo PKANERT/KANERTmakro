@@ -204,7 +204,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>mLZCuHnRGHpdZh+vq7z2VISbpzDjGFuyo3jT1m+jGFo=</dsig:DigestValue>
+      <dsig:DigestValue>sfXFWacgFqlwG+8nxxO9brUwKUDKnvcEIvnXbJNhkXI=</dsig:DigestValue>
     </hash>
   </file>
   <file name="KANERT.dll.config" size="1409">
