@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <configSections>
+        <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" >
+            <section name="KANERT.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+        </sectionGroup>
+    </configSections>
+    <userSettings>
+        <KANERT.Properties.Settings>
+            <setting name="LastAppVersion" serializeAs="String">
+                <value>X.X.X.X</value>
+            </setting>
+            <setting name="LastBackupPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="LastLangTextPath" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="CallUpgradeNeeded" serializeAs="String">
+                <value>True</value>
+            </setting>
+            <setting name="LastFolderPLC" serializeAs="String">
+                <value />
+            </setting>
+            <setting name="LastFolderRob" serializeAs="String">
+                <value />
+            </setting>
+        </KANERT.Properties.Settings>
+    </userSettings>
+</configuration>
